@@ -28,18 +28,7 @@ pipeline {
                 }
             }
         }
-        stage('Test') {
-            steps {
-                script {
-                    def imageTag = "latest-${env.BUILD_NUMBER}"
-                    echo "Running tests on Docker image with tag: ${imageTag}"
-                    sh "docker stop ${CONTAINER_NAME} || true"
-                    sh "docker rm ${CONTAINER_NAME} || true"
-                    sh "docker run -d --name ${CONTAINER_NAME} -p 80:80 ${REPO-1}:${imageTag}"
-                }
-            }
-        }
-        stage('Deploy') {
+        stage('Tagging') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'DOCKER_REGISTRY_CREDS', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
                     script {
@@ -52,8 +41,17 @@ pipeline {
                 }
             }
         }
-    }
-
+        stage('Deploy') {
+            steps {
+                script {
+                    def imageTag = "latest-${env.BUILD_NUMBER}"
+                    echo "Running tests on Docker image with tag: ${imageTag}"
+                    sh "docker stop ${CONTAINER_NAME} || true"
+                    sh "docker rm ${CONTAINER_NAME} || true"
+                    sh "docker run -d --name ${CONTAINER_NAME} -p 80:80 ${REPO-1}:${imageTag}"
+                }
+            }
+        }
     post {
         always {
             echo "Logging out from Docker registry"
