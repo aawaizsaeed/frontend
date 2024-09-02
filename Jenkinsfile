@@ -13,7 +13,7 @@ pipeline {
 
                     checkout([$class: 'GitSCM',
                         branches: [[name: "*/${branchName}"]],
-                        userRemoteConfigs: [[url: "${MY_CODE}"]]
+                        userRemoteConfigs: [[url: "${MY_CODE-1}"]]
                     ])
                 }
             }
@@ -24,7 +24,7 @@ pipeline {
                     def imageTag = "latest-${env.BUILD_NUMBER}"
                     echo "Building Docker image with tag: ${imageTag}"
                     sh "docker build -t ${DOCKER_FE_IMAGE}:${imageTag} ."
-                    sh "docker tag ${DOCKER_FE_IMAGE}:${imageTag} ${REPO}:${imageTag}"
+                    sh "docker tag ${DOCKER_FE_IMAGE}:${imageTag} ${REPO-1}:${imageTag}"
                 }
             }
         }
@@ -35,7 +35,7 @@ pipeline {
                     echo "Running tests on Docker image with tag: ${imageTag}"
                     sh "docker stop ${CONTAINER_NAME} || true"
                     sh "docker rm ${CONTAINER_NAME} || true"
-                    sh "docker run -d --name ${CONTAINER_NAME} -p 8000:5000 ${REPO}:${imageTag}"
+                    sh "docker run -d --name ${CONTAINER_NAME} -p 8000:5000 ${REPO-1}:${imageTag}"
                 }
             }
         }
@@ -47,7 +47,7 @@ pipeline {
                         echo "Logging in to Docker registry"
                         sh "echo \$DOCKER_PASSWORD | docker login -u \$DOCKER_USERNAME --password-stdin docker.io"
                         echo "Pushing Docker image with tag: ${imageTag}"
-                        sh "docker push ${REPO}:${imageTag}"
+                        sh "docker push ${REPO-1}:${imageTag}"
                     }
                 }
             }
