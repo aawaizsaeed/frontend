@@ -52,6 +52,7 @@ pipeline {
                 }
             }
         }
+    }
     post {
         always {
             echo "Logging out from Docker registry"
