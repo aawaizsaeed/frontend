@@ -24,7 +24,7 @@ pipeline {
                     def imageTag = "latest-${env.BUILD_NUMBER}"
                     echo "Building Docker image with tag: ${imageTag}"
                     sh "docker build -t frontend:${imageTag} ."
-                    sh "docker tag frontend:${imageTag} ${REPO-FE}:${imageTag}"
+                    sh "docker tag frontend:${imageTag} aawaiz/frontend:${imageTag}"
                 }
             }
         }
