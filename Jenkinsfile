@@ -24,7 +24,7 @@ pipeline {
                     def imageTag = "latest-${env.BUILD_NUMBER}"
                     echo "Building Docker image with tag: ${imageTag}"
                     sh "docker build -t ${DOCKER_FE_IMAGE}:${imageTag} ."
-                    sh "docker tag ${DOCKER_FE_IMAGE}:${imageTag} ${REPO-1}:${imageTag}"
+                    sh "docker tag ${DOCKER_FE_IMAGE}:${imageTag} ${REPO-FE}:${imageTag}"
                 }
             }
         }
@@ -36,7 +36,7 @@ pipeline {
                         echo "Logging in to Docker registry"
                         sh "echo \$DOCKER_PASSWORD | docker login -u \$DOCKER_USERNAME --password-stdin docker.io"
                         echo "Pushing Docker image with tag: ${imageTag}"
-                        sh "docker push ${REPO-1}:${imageTag}"
+                        sh "docker push ${REPO-FE}:${imageTag}"
                     }
                 }
             }
