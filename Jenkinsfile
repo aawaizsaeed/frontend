@@ -18,20 +18,13 @@ pipeline {
                 }
             }
         }
-        stage('Build') {
-            steps {
-                script {
-                    sh 'mvn clean install'
-                }
-            }
-        }
         stage('Building') {
             steps {
                 script {
                     def imageTag = "latest-${env.BUILD_NUMBER}"
                     echo "Building Docker image with tag: ${imageTag}"
-                    sh "docker build -t ${DOCKER_BE_IMAGE}:${imageTag} ."
-                    sh "docker tag ${DOCKER_BE_IMAGE}:${imageTag} ${REPO}:${imageTag}"
+                    sh "docker build -t ${DOCKER_FE_IMAGE}:${imageTag} ."
+                    sh "docker tag ${DOCKER_FE_IMAGE}:${imageTag} ${REPO}:${imageTag}"
                 }
             }
         }
