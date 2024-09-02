@@ -36,7 +36,7 @@ pipeline {
                         echo "Logging in to Docker registry"
                         sh "echo \$DOCKER_PASSWORD | docker login -u \$DOCKER_USERNAME --password-stdin docker.io"
                         echo "Pushing Docker image with tag: ${imageTag}"
-                        sh "docker push ${REPO-FE}:${imageTag}"
+                        sh "docker push ${REPO_FE}:${imageTag}"
                     }
                 }
             }
