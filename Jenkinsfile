@@ -35,7 +35,7 @@ pipeline {
                     echo "Running tests on Docker image with tag: ${imageTag}"
                     sh "docker stop ${CONTAINER_NAME} || true"
                     sh "docker rm ${CONTAINER_NAME} || true"
-                    sh "docker run -d --name ${CONTAINER_NAME} -p 8000:5000 ${REPO-1}:${imageTag}"
+                    sh "docker run -d --name ${CONTAINER_NAME} -p 80:80 ${REPO-1}:${imageTag}"
                 }
             }
         }
